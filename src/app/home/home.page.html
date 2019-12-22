@@ -1,14 +1,35 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          logo
+        </ion-col>
+        <ion-col>
+          <ion-title>
+            CFT Card Scanner
+          </ion-title>
+        </ion-col>
+        <ion-col class="ion-text-right">
+          <ion-icon name="camera" (click)="clickListener()"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+    <ion-progress-bar type="indeterminate" *ngIf="showProgress"></ion-progress-bar>
+    <p class="ion-text-center" *ngIf="showProgress">{{loadingMsg}}</p>
+    <img src="{{selectedImage}}" alt="No image selected" *ngIf="selectedImage">
+
+    <p>{{contactInfo | json}}</p>
+    <p style="color: blue">{{customMsg | json}}</p>
+
+    <p style="color: red">{{errMsg | json}}</p>
   </div>
 </ion-content>
+<ion-footer>
+  Developed by Prashant Shinde
+</ion-footer>

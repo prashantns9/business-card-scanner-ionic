@@ -1,5 +1,8 @@
 {
   "name": "business-card-scanner-ionic",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
   "type": "angular"
 }

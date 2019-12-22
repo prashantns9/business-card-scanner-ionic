@@ -1,0 +1,8 @@
+{
+  "appId": "com.prashantshinde.bcs",
+  "appName": "business-card-scanner-ionic",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

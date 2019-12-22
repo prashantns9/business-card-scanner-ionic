@@ -13,7 +13,11 @@
  *
  * Learn more in https://angular.io/guide/browser-support
  */
-
+(window as any).process = {
+    browser: true,
+    env: {
+    }
+};
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */

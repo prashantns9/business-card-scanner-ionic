@@ -11,7 +11,7 @@
           </ion-title>
         </ion-col>
         <ion-col class="ion-text-right">
-          <ion-icon name="camera" (click)="clickListener()"></ion-icon>
+          <ion-icon name="camera" (click)="getImageFromCamera()"></ion-icon>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -23,8 +23,10 @@
     <ion-progress-bar type="indeterminate" *ngIf="showProgress"></ion-progress-bar>
     <p class="ion-text-center" *ngIf="showProgress">{{loadingMsg}}</p>
     <img src="{{selectedImage}}" alt="No image selected" *ngIf="selectedImage">
+    <input type="file" name="imageInput" id="imageInput" (change)="getImageFromFiles($event)" accept="image/*">
 
     <p>{{contactInfo | json}}</p>
+    
     <p style="color: blue">{{customMsg | json}}</p>
 
     <p style="color: red">{{errMsg | json}}</p>

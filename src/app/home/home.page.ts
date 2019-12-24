@@ -15,7 +15,7 @@ export class HomePage {
   errMsg = 'default';
   showProgress: boolean = false;
   loadingMsg: string = 'Loading';
-  customMsg = 'default';
+  customMsg: any = 'default';
   selectedImage: any;
   contactInfo: Contact = new Contact();
   camOptions: CameraOptions = {
@@ -31,7 +31,7 @@ export class HomePage {
     private ocrService: OcrService
   ) { }
 
-  clickListener() {
+  getImageFromCamera() {
     this.showProgress = true;
     this.platform.ready().then(() => {
       this.loadingMsg = "Loading Image";
@@ -43,13 +43,30 @@ export class HomePage {
             this.selectedImage = processedImage;
             this.loadingMsg = "Recognizing Text";
             this.ocrService.getContactData(this.selectedImage).then(result => {
-              this.contactInfo = <Contact>result;
+              this.customMsg = result;
               this.showProgress = false;
             });
           });
         }).catch(err => this.errMsg = err).finally(() => (this.showProgress = false));
       }
     })
+  }
+
+
+  getImageFromFiles(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.selectedImage = reader.result;
+      this.preprocessorService.preprocessImage(this.selectedImage).then(processedImage => {
+        this.selectedImage = processedImage;
+        this.ocrService.getContactData(this.selectedImage).then(result => {
+          this.customMsg = result;
+          console.log(result);
+        }).catch(err => this.errMsg = err).finally(() => this.showProgress = false);
+      });
+    }
   }
 
 }

@@ -16,7 +16,7 @@ $RECYCLE.BIN/
 *.log
 log.txt
 npm-debug.log*
-package-lock.json
+/package-lock.json
 /.idea
 /.ionic
 /.sass-cache

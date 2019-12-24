@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          logo
+        </ion-col>
+        <ion-col>
+          <ion-title style="padding-top: 6px">
+            CFT Card Scanner
+          </ion-title>
+        </ion-col>
+        <ion-col class="ion-text-right">
+          <ion-icon size="large" name="camera" (click)="getImageFromCamera()"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding ion-margin">
+    <input *ngIf="!platform.is('cordova')" type="file" name="imageInput" id="imageInput"
+      (change)="getImageFromFiles($event)" accept="image/*">
+    <h6 *ngIf="!showForm" class="ion-text-center" style="margin-top: 8rem">Please click on camera icon on the top right
+      to capture image.</h6>
+    <form name="contactForm" *ngIf="showForm">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="11">
+            <ion-item>
+              <ion-label position="floating">Name</ion-label>
+              <ion-input name="contactName" [(ngModel)]="contactData.name"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon size="large" name="arrow-dropdown" class="ion-margin-top" (click)="resolveField('name')">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="11">
+            <ion-item>
+              <ion-label position="floating">Company</ion-label>
+              <ion-input name="contactCompany" [(ngModel)]="contactData.company"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon size="large" name="arrow-dropdown" class="ion-margin-top" (click)="resolveField('company')">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="11">
+            <ion-item>
+              <ion-label position="floating">Phone Number</ion-label>
+              <ion-input name="contactPhone" [(ngModel)]="contactData.phone"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon size="large" name="arrow-dropdown" class="ion-margin-top" (click)="resolveField('phone')">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="11">
+            <ion-item>
+              <ion-label position="floating">Website</ion-label>
+              <ion-input name="contactWebsite" [(ngModel)]="contactData.website"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon size="large" name="arrow-dropdown" class="ion-margin-top" (click)="resolveField('website')">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="11">
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email" name="contactEmail" [(ngModel)]="contactData.email"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon size="large" name="arrow-dropdown" class="ion-margin-top" (click)="resolveField('email')"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>
+<ion-footer class="ion-text-center">
+  Barclays &copy; Prashant Shinde
+</ion-footer>

@@ -1,9 +1,14 @@
-export class Contact {
-    firstName: string = '';
-    lastName: string = '';
-    phoneNumber: string = ''
+export class ContactCandidateClass {
+    nameCandidates: Array<string> = [];
+    phoneCandidates: Array<string> = [];
+    companyCandidates: Array<string> = [];
+    emailCandidates: Array<string> = [];
+    websiteCandidates: Array<string> = [];
+}
+export class ContactClass {
+    name: string = '';
     company: string = '';
-    jobTitle: string = '';
-    email: string = '';
+    phone: string = '';
     website: string = '';
+    email: string = '';
 }

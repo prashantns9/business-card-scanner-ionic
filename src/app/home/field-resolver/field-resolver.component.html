@@ -1,0 +1,7 @@
+<ion-list>
+  <ion-item detail *ngFor="let option of options">
+    <ion-label (click)="onSelect(option)">
+      {{option}}
+    </ion-label>
+  </ion-item>
+</ion-list>

@@ -12,12 +12,12 @@ export class PreprocessorService {
       Jimp.read(inputImage).then((img) => {
         img.greyscale().contrast(0.5).getBase64(Jimp.MIME_JPEG, (err, data) => {
           if (err) {
-            reject();
+            reject(err);
           } else {
             resolve(data)
           }
         });
-      });
+      }).catch(err => reject(err));
     });
   }
 }

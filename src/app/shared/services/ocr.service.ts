@@ -69,18 +69,18 @@ export class OcrService {
   findPhoneNumber() {
     this.lines.forEach((line, i) => {
       if (line.text) {
-        if (this.phoneNumberPattern.test(line.text)) {
+        if (this.phoneNumberPattern.test(line.text.replace(/ /g, ''))) {
           //find matches for phone number pattern
-          let phonesInCurrLine = line.text.match(this.phoneNumberPattern);
+          let phonesInCurrLine = line.text.replace(/ /g, '').match(this.phoneNumberPattern);
           //add all matches to phone candidates
           if (phonesInCurrLine.length) {
             this.contactInfo.phoneCandidates = this.contactInfo.phoneCandidates.concat(phonesInCurrLine);
           }
           //remove phone from line
-          this.lines[i].text = line.text.replace(this.phoneNumberPattern, ' ').trim();
+          this.lines[i].text = line.text.replace(/ /g, '').replace(this.phoneNumberPattern, ' ').trim();
           if (!this.lines[i].text) {
             this.lines.splice(i, 1);
-          } 
+          }
         }
       }
     });

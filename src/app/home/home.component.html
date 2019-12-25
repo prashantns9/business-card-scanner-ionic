@@ -82,7 +82,13 @@
             </ion-item>
           </ion-col>
           <ion-col size="1">
-            <ion-icon size="large" name="arrow-dropdown" class="ion-margin-top" (click)="resolveField('email')"></ion-icon>
+            <ion-icon size="large" name="arrow-dropdown" class="ion-margin-top" (click)="resolveField('email')">
+            </ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-button color="primary" (click)="saveContact()">Save Contact</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

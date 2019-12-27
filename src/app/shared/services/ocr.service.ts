@@ -24,7 +24,6 @@ export class OcrService {
     });
   }
 
-
   findWebsite() {
     this.lines.forEach((line, i) => {
       if (line.text) {
@@ -86,6 +85,17 @@ export class OcrService {
     });
   }
 
+  findCompanyAndName() {
+    this.lines.forEach((line, i) => {
+      if (line.text) {
+        this.contactInfo.nameCandidates.push(line.text);
+        if (line.text.split(" ").length > 3) {
+          this.contactInfo.companyCandidates.push(line.text);
+        }
+      }
+    });
+  }
+
   getContactData(image) {
     return new Promise((resolve, reject) => {
       this.contactInfo = new ContactCandidateClass();
@@ -98,6 +108,7 @@ export class OcrService {
           this.findWebsite();
           this.findEmail();
           this.findPhoneNumber();
+          this.findCompanyAndName();
           resolve(this.contactInfo);
         });
     });

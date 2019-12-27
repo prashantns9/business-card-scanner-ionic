@@ -13,7 +13,6 @@ import { Contacts, Contact, ContactField, ContactName, ContactOrganization } fro
   templateUrl: 'home.component.html',
 })
 export class HomePage {
-  selectedImage: any;
 
   contactCandidates: ContactCandidateClass = new ContactCandidateClass();
   contactData: ContactClass = new ContactClass();
@@ -79,50 +78,66 @@ export class HomePage {
       () => {
         this.showForm = false;
         this.showToastMessage('Contact saved!!')
-      } ,
+      },
       (error: any) => this.showToastMessage('Error saving contact.')
     );
   }
 
   async getImageFromCamera() {
     const loading = await this.loadingController.create({
-      message: 'Reading contact details',
+      message: 'Getting image',
     });
     await loading.present();
-    this.platform.ready().then(() => {
-      if (this.platform.is('cordova')) {
-        this.camera.getPicture(this.camOptions).then((imageData) => {
-          this.selectedImage = 'data:image/jpeg;base64,' + imageData;
-          this.preprocessorService.preprocessImage(this.selectedImage).then(processedImage => {
-            this.selectedImage = processedImage;
-            this.ocrService.getContactData(this.selectedImage).then(result => {
-              this.contactCandidates = <ContactCandidateClass>result;
-              this.prefillContactData();
-              this.showForm = true;
-              loading.dismiss();
-            });
-          });
-        }).catch(err => {
-          console.error(err);
-          loading.dismiss();
-        });
-      }
-    })
+    this.platform.ready()
+      .then(() => {
+        // click picture
+        if (this.platform.is('cordova')) {
+          return this.camera.getPicture(this.camOptions)
+        }
+        return new Promise((resolve, reject) => reject('Platform error!!'));
+      })
+      .then((imageData) => {
+        // add default filters
+        loading.message = 'Preprocessing Image';
+        imageData = 'data:image/jpeg;base64,' + imageData;
+        return this.preprocessorService.preprocessImage(imageData);
+      })
+      .then(processedImage => {
+        // run ocr
+        loading.message = 'Recognizing text';
+        return this.ocrService.getContactData(processedImage);
+      })
+      .then(c => {
+        // show form
+        loading.message = 'Loading contact';
+        this.contactCandidates = <ContactCandidateClass>c;
+        this.prefillContactData();
+        this.showForm = true;
+        loading.dismiss();
+      })
+      .catch(err => {
+        console.error(err);
+        loading.dismiss();
+      });
   }
 
   async getImageFromFiles(e) {
     const loading = await this.loadingController.create({
-      message: 'Reading contact details',
+      message: 'Reading file',
     });
     await loading.present();
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      this.selectedImage = reader.result;
-      this.preprocessorService.preprocessImage(this.selectedImage)
-        .then(processedImage => this.ocrService.getContactData(processedImage))
+      loading.message = 'preprocessing image'
+      this.preprocessorService.preprocessImage(reader.result)
+        .then(processedImage => {
+          loading.message = 'Recognizing text';
+          return this.ocrService.getContactData(processedImage)
+        })
         .then(result => {
+          loading.message = 'Loading contact';
           this.contactCandidates = <ContactCandidateClass>result;
           this.prefillContactData();
           this.showForm = true;
